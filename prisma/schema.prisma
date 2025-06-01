@@ -6,18 +6,17 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider = "postgres"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
-  unique    String   @unique
+  username  String   @unique
   clerkId   String   @unique
   name      String?
   bio       String?
@@ -32,8 +31,8 @@ model User {
   comments Comment[] // One-to-many
   likes    Like[] // One-to-many
 
-  followers  Follows[] @relation("following") // users sho follow this user
-  followings Follows[] @relation("follower") // users this user follow
+  followers Follows[] @relation("following") // users sho follow this user
+  following Follows[] @relation("follower") // users this user follow
 
   // notifications received by a user
   notifications        Notification[] @relation("userNotifications")
