@@ -49,6 +49,7 @@ export async function syncUser() {
     return dbUser;
   } catch (error) {
     console.log("Error in syncUser", error);
+    return { success: false, error: "Failed to sync user" };
   }
 }
 
@@ -69,7 +70,7 @@ export async function getUserByClerkId(clerkId: string) {
 
 export async function getDBuserId() {
   const { userId: clerkId } = await auth();
-  if (!clerkId) throw new Error("Unauthorised access!");
+  if (!clerkId) return null;
 
   const user = await getUserByClerkId(clerkId);
   if (!user) throw new Error("No such user found");
@@ -80,6 +81,8 @@ export async function getDBuserId() {
 export async function getRandomUsers() {
   try {
     const userId = await getDBuserId();
+
+    if (!userId) return [];
 
     // Get 3 random users excluding the current user and those already followed
     const users = await prisma.user.findMany({
@@ -116,13 +119,15 @@ export async function getRandomUsers() {
     return users;
   } catch (error) {
     console.error("Error fetching random users:", error);
-    return [];
+    return { success: false, error: "Failed to fetch users" };
   }
 }
 
 export async function toggleFollow(targetUserId: string) {
   try {
     const userId = await getDBuserId();
+
+    if (!userId) return;
 
     if (userId === targetUserId) throw new Error("You cannot follow yourself");
 
