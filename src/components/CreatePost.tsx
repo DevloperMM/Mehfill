@@ -9,6 +9,7 @@ import { createPost } from "@/actions/post.action";
 import { Button } from "./ui/button";
 import { ImageIcon, Loader2Icon, SendIcon } from "lucide-react";
 import toast from "react-hot-toast";
+import ImageUpload from "./ImageUpload";
 
 function CreatePost() {
   const { user } = useUser();
@@ -24,12 +25,11 @@ function CreatePost() {
     setIsPosting(true);
     try {
       const result = await createPost(content, imageUrl);
-      if (result.success) {
+      if (result?.success) {
         // reset the form
         setContent("");
         setImageUrl("");
         setShowImgUpload(false);
-
         toast.success("Post creation succeed !!");
       }
     } catch (error) {
@@ -50,25 +50,25 @@ function CreatePost() {
             </Avatar>
             <Textarea
               placeholder="What's on your mind?"
-              className="min-h-[100px] resize-none border-none focus-visible:ring-0 p-0 text-base"
+              className="min-h-[100px] resize-none border-none focus-visible:ring-0 p-1 text-base"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               disabled={isPosting}
             />
           </div>
 
-          {/* {(showImgUpload || imageUrl) && (
+          {(showImgUpload || imageUrl) && (
             <div className="border rounded-lg p-4">
               <ImageUpload
                 endpoint="postImage"
                 value={imageUrl}
                 onChange={(url) => {
-                  setImgUrl(url);
+                  setImageUrl(url);
                   if (!url) setShowImgUpload(false);
                 }}
               />
             </div>
-          )} */}
+          )}
 
           <div className="flex items-center justify-between border-t pt-4">
             <div className="flex space-x-2">
