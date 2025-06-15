@@ -31,36 +31,21 @@ export async function getPosts() {
       orderBy: { createdAt: "desc" },
       include: {
         author: {
-          select: {
-            id: true,
-            name: true,
-            username: true,
-            image: true,
-          },
+          select: { id: true, name: true, username: true, image: true },
         },
         comments: {
           include: {
             author: {
-              select: {
-                id: true,
-                name: true,
-                username: true,
-                image: true,
-              },
+              select: { id: true, name: true, username: true, image: true },
             },
           },
           orderBy: { createdAt: "asc" },
         },
         likes: {
-          select: {
-            userId: true,
-          },
+          select: { userId: true },
         },
         _count: {
-          select: {
-            comments: true,
-            likes: true,
-          },
+          select: { comments: true, likes: true },
         },
       },
     });
@@ -194,6 +179,8 @@ export async function deletePost(postId: string) {
     await prisma.post.delete({
       where: { id: postId },
     });
+
+    // Delete uploaded image before deleting post
 
     revalidatePath("/"); // purge the cache
     return { success: true };

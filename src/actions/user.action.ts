@@ -58,11 +58,7 @@ export async function getUserByClerkId(clerkId: string) {
     where: { clerkId },
     include: {
       _count: {
-        select: {
-          followers: true,
-          following: true,
-          posts: true,
-        },
+        select: { followers: true, following: true, posts: true },
       },
     },
   });
