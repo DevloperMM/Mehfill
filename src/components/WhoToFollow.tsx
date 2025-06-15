@@ -8,7 +8,8 @@ import FollowBtn from "./FollowBtn";
 async function WhoToFollow() {
   const users = await getRandomUsers();
 
-  if (users.length <= 0) return null;
+  if (users.length === 0) return null;
+  // Try rendering something else if users are null
 
   return (
     <Card>
