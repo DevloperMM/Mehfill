@@ -18,7 +18,12 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useState } from "react";
-import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
+import {
+  SignInButton,
+  SignOutButton,
+  SignUpButton,
+  useUser,
+} from "@clerk/nextjs";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 
@@ -103,15 +108,26 @@ function MobileNavbar() {
                 </SignOutButton>
               </>
             ) : (
-              <SignInButton mode="modal">
-                <Button
-                  variant="default"
-                  className="w-full"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  Sign In
-                </Button>
-              </SignInButton>
+              <>
+                <SignInButton mode="modal">
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => setShowMobileMenu(false)}
+                  >
+                    Sign In
+                  </Button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <Button
+                    variant="default"
+                    className="w-full"
+                    onClick={() => setShowMobileMenu(false)}
+                  >
+                    Sign Up
+                  </Button>
+                </SignUpButton>
+              </>
             )}
           </nav>
         </SheetContent>
